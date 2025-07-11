@@ -1,1 +1,1 @@
-const HF_API_KEY = "yahan_huggingface_api_key_daalein";
+const HF_API_KEY = "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";
