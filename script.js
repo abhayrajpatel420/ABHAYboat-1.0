@@ -1,4 +1,3 @@
-
 async function sendMessage() {
   const input = document.getElementById("user-input");
   const message = input.value.trim();
@@ -19,7 +18,7 @@ function addMessage(sender, text) {
 
 async function getAIResponse(message) {
   try {
-    const response = await fetch("https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium", { , {
+    const response = await fetch("https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${HF_API_KEY}`,
@@ -27,10 +26,18 @@ async function getAIResponse(message) {
       },
       body: JSON.stringify({ inputs: message }),
     });
+
     const data = await response.json();
+
+    // Check for errors
+    if (data.error) {
+      return "⚠️ Model busy hai ya error aaya: " + data.error;
+    }
+
+    // Extract response
     return data[0]?.generated_text || "⚠️ कोई उत्तर नहीं मिला";
   } catch (error) {
-    return "⚠️ एरर आ गया";
+    return "⚠️ नेटवर्क या सर्वर एरर: " + error.message;
   }
 }
 
