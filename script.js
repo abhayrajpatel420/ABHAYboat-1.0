@@ -57,4 +57,25 @@ function startVoiceInput() {
     document.getElementById("user-input").value = transcript;
     sendMessage();
   };
+}function sendMessage() {
+    const userInput = document.getElementById("userInput").value;
+    const chatBox = document.getElementById("chatBox");
+
+    if (userInput.trim() !== "") {
+        const userMessage = document.createElement("div");
+        userMessage.className = "message user";
+        userMessage.textContent = userInput;
+
+        chatBox.appendChild(userMessage);
+        document.getElementById("userInput").value = "";
+
+        // Simulate bot response
+        const botReply = document.createElement("div");
+        botReply.className = "message bot";
+        botReply.textContent = "🤖: Response to '" + userInput + "'";
+
+        chatBox.appendChild(botReply);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
 }
+
