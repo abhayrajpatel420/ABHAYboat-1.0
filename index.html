@@ -1,21 +1,75 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🤖 ABHAYboat 1.0</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f8ff;
+      padding: 20px;
+    }
+    #chatbox {
+      width: 100%;
+      height: 300px;
+      border: 1px solid #999;
+      padding: 10px;
+      overflow-y: auto;
+      background-color: #fff;
+      margin-bottom: 10px;
+    }
+    #userInput {
+      width: 80%;
+      padding: 10px;
+    }
+    #sendBtn {
+      padding: 10px 20px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #sendBtn:hover {
+      background-color: #005fa3;
+    }
+  </style>
 </head>
 <body>
+
   <h1>🤖 ABHAYboat 1.0</h1>
-  
-  <div class="chat-box" id="chat-box"></div>
 
-  <input type="text" id="user-input" placeholder="कुछ पूछिए..." />
-  <button id="send-btn">📩 भेजें</button>
-  <button id="voice-btn">🎙️ बोलकर पूछें</button>
+  <div id="chatbox"></div>
 
-  <script src="secrets.js"></script>
-  <script src="script.js" defer></script>
+  <input type="text" id="userInput" placeholder="Type your message here..." />
+  <button id="sendBtn">📩 भेजें</button>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const message = input.value.trim();
+      const chatbox = document.getElementById("chatbox");
+
+      if (message !== "") {
+        const userBubble = document.createElement("div");
+        userBubble.textContent = "🧑‍💻 You: " + message;
+        chatbox.appendChild(userBubble);
+
+        // Basic bot response simulation
+        const botBubble = document.createElement("div");
+        botBubble.textContent = "🤖 ABHAYboat: Mujhe aapka message mil gaya: \"" + message + "\"";
+        chatbox.appendChild(botBubble);
+
+        chatbox.scrollTop = chatbox.scrollHeight;
+        input.value = ""; // Clear input
+      } else {
+        alert("Kuch likho pehle! 📢");
+      }
+    }
+
+    // Hook the button to sendMessage function
+    document.getElementById("sendBtn").addEventListener("click", sendMessage);
+  </script>
+
 </body>
 </html>
