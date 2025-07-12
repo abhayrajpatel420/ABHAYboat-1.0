@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,12 +8,14 @@
 </head>
 <body>
   <h1>🤖 ABHAYboat 1.0</h1>
+  
   <div class="chat-box" id="chat-box"></div>
+
   <input type="text" id="user-input" placeholder="कुछ पूछिए..." />
-  <button onclick="sendMessage()">📩 भेजें</button>
-  <button onclick="startVoiceInput()">🎙️ बोलकर पूछें</button>
+  <button id="send-btn">📩 भेजें</button>
+  <button id="voice-btn">🎙️ बोलकर पूछें</button>
+
   <script src="secrets.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
-<script src="script.js" defer></script>
