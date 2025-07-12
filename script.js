@@ -52,3 +52,10 @@ function startVoiceInput() {
     sendMessage();
   };
 }
+function sendMessage() {
+  // logic to send user input
+}
+
+function startVoiceInput() {
+  // logic to capture voice input
+}
