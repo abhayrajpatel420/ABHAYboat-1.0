@@ -1,63 +1,38 @@
-const HF_API_KEY = "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"; // Make sure this matches your secrets.js
+const HF_API_KEY = "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"; // Make sure this is declared only once
+const HF_API_URL = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium";
 
-document.getElementById("send-btn").addEventListener("click", sendMessage);
-document.getElementById("voice-btn").addEventListener("click", startVoiceInput);
+async function generateBotReply(userMessage) {
+    try {
+        const response = await fetch(HF_API_URL, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${HF_API_KEY}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ inputs: userMessage })
+        });
 
-async function sendMessage() {
-  const input = document.getElementById("user-input");
-  const message = input.value.trim();
-  if (!message) return;
-
-  addMessage("👤", message);
-  input.value = "";
-
-  const response = await getAIResponse(message);
-  addMessage("🤖", response);
-}
-
-function addMessage(sender, text) {
-  const chatBox = document.getElementById("chat-box");
-  const messageEl = document.createElement("div");
-  messageEl.innerText = `${sender}: ${text}`;
-  chatBox.appendChild(messageEl);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-async function getAIResponse(message) {
-  try {
-    const response = await fetch(
-      "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${HF_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ inputs: message }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (data.error) {
-      return "⚠️ Model busy hai ya error aaya: " + data.error;
+        const data = await response.json();
+        const botReply = data.generated_text || "Maaf kijiye, mujhe jawab nahi mila.";
+        displayMessage("ABHAYboat 🤖", botReply);
+    } catch (error) {
+        console.error("Error:", error);
+        displayMessage("ABHAYboat 🤖", "Kuch galat ho gaya... firse koshish karein?");
     }
-
-    return data[0]?.generated_text || "⚠️ कोई उत्तर नहीं मिला";
-  } catch (error) {
-    return "⚠️ नेटवर्क या सर्वर एरर: " + error.message;
-  }
 }
 
-function startVoiceInput() {
-  const recognition =
-    new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.lang = "hi-IN";
-  recognition.start();
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    document.getElementById("user-input").value = transcript;
-    sendMessage();
-  };
+function displayMessage(sender, message) {
+    const chatContainer = document.getElementById("chatContainer");
+    const msgElem = document.createElement("div");
+    msgElem.className = "message";
+    msgElem.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    chatContainer.appendChild(msgElem);
 }
+
+document.getElementById("sendButton").addEventListener("click", () => {
+    const userInput = document.getElementById("userInput").value.trim();
+    if (userInput !== "") {
+        displayMessage("Aap 🧑‍💻", userInput);
+        generateBotReply(userInput);
+    }
+});
