@@ -59,3 +59,15 @@ function sendMessage() {
 function startVoiceInput() {
   // logic to capture voice input
 }
+function sendMessage() {
+  const userInput = document.querySelector("#userInput").value;
+  if (userInput.trim() !== "") {
+    console.log("User said:", userInput);
+    // Add your response handling here
+  }
+}
+
+function startVoiceInput() {
+  console.log("Voice input started");
+  // Future upgrade: integrate Web Speech API for voice recognition
+}
